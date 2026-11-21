@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Nexa Quick Start Guide</title>
+  <style>
+    :root{color-scheme:dark;--bg:#081121;--card:#14213a;--line:#2d4161;--text:#f5f8ff;--muted:#aebed8;--cyan:#60e1dc;--purple:#9c8cff;--danger:#ff7890}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0,#29366a 0,transparent 38%),radial-gradient(circle at 90% 10%,#164c50 0,transparent 33%),var(--bg);color:var(--text);font-family:"Segoe UI",Arial,sans-serif;line-height:1.7}
+    main{max-width:980px;margin:auto;padding:42px 22px 70px}.hero,.card{border:1px solid var(--line);background:linear-gradient(145deg,rgba(31,48,84,.95),rgba(14,28,51,.95));border-radius:22px;box-shadow:0 20px 60px #0007}.hero{padding:32px;margin-bottom:22px}.eyebrow{color:var(--cyan);font-weight:700;letter-spacing:.08em}.hero h1{font-size:clamp(34px,7vw,62px);margin:3px 0}.hero p{color:var(--muted);font-size:17px;max-width:700px}.badges{display:flex;gap:9px;flex-wrap:wrap}.badge{border:1px solid #45607e;background:#122942;border-radius:999px;padding:5px 12px;font-size:12px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px}.card{padding:23px;margin-bottom:16px}.card h2{margin:0 0 10px;font-size:20px}.step{display:flex;gap:13px;align-items:flex-start;margin:12px 0}.n{display:grid;place-items:center;min-width:31px;height:31px;border-radius:9px;background:linear-gradient(135deg,var(--purple),#4a9fff);font-weight:700}.muted{color:var(--muted)}a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline}.provider{padding:13px 0;border-bottom:1px solid var(--line)}.provider:last-child{border:0}.provider strong{color:var(--cyan)}code{display:inline-block;background:#091526;border:1px solid var(--line);border-radius:7px;padding:1px 7px;color:#dce8ff}.alert{border-left:4px solid var(--danger);padding:10px 14px;background:#301d2c;border-radius:10px}.ok{border-left-color:var(--cyan);background:#123234}ul{padding-left:22px}.footer{text-align:center;color:var(--muted);padding-top:18px;font-size:12px}
+  </style>
+</head>
+<body>
+<main>
+  <section class="hero">
+    <div class="eyebrow">NEXA 1.0 · WINDOWS AI ASSISTANT</div>
+    <h1>Quick start</h1>
+    <p>Use Nexa to type, talk, open apps, find files, and create text or simple websites. You bring your own AI provider key, and Nexa stores it in Windows Credential Manager.</p>
+    <div class="badges"><span class="badge">Windows 10/11</span><span class="badge">Typed chat</span><span class="badge">Voice commands</span><span class="badge">Alt + Space</span><span class="badge">Light and dark themes</span></div>
+  </section>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Set up Nexa in four steps</h2>
+      <div class="step"><span class="n">1</span><span>Run <code>Nexa.exe</code>. Nexa opens the guide and settings on the first launch.</span></div>
+      <div class="step"><span class="n">2</span><span>Open the <b>AI</b> tab, choose a provider, and create an API key on its official site.</span></div>
+      <div class="step"><span class="n">3</span><span>Enter the key, click <b>Refresh</b>, select a model, and click <b>Test Connection</b>.</span></div>
+      <div class="step"><span class="n">4</span><span>Click <b>Save</b>. Open Nexa later with Alt+Space or its system tray icon.</span></div>
+    </section>
+
+    <section class="card">
+      <h2>An easy place to start</h2>
+      <p><b>Google Gemini</b> is often a simple way to create a key and try Nexa. Some models offer a limited free tier. Choose a model with audio input support for voice commands.</p>
+      <p><a href="https://aistudio.google.com/app/apikey">Create a key in Google AI Studio →</a></p>
+      <div class="alert">Free access and usage limits can change. Always check the provider's current terms and billing page.</div>
+    </section>
+  </div>
+
+  <section class="card">
+    <h2>Create a provider key</h2>
+    <div class="provider"><strong>Google Gemini</strong> — <a href="https://aistudio.google.com/app/apikey">Google AI Studio API Keys</a><div class="muted">Useful for text and models that accept audio input.</div></div>
+    <div class="provider"><strong>OpenAI</strong> — <a href="https://platform.openai.com/api-keys">OpenAI Platform API Keys</a><div class="muted">API billing is separate from a ChatGPT subscription. Check the API account's billing status.</div></div>
+    <div class="provider"><strong>OpenRouter</strong> — <a href="https://openrouter.ai/settings/keys">OpenRouter Keys</a><div class="muted">Free models have request limits. Voice conversations also use Speech-to-Text and may have a cost.</div></div>
+    <div class="provider"><strong>Claude</strong> — <a href="https://platform.claude.com/settings/keys">Claude Console API Keys</a><div class="muted">Nexa's direct Claude connection supports typed chat and commands.</div></div>
+    <div class="provider"><strong>OmniRoute</strong> — <a href="http://localhost:20128">Local OmniRoute dashboard</a><div class="muted">OmniRoute must be running on this computer and connected to an upstream provider. Default Base URL: <code>http://localhost:20128/v1</code></div></div>
+  </section>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Voice and microphone</h2>
+      <ul>
+        <li><b>Listen</b> starts a continuous voice conversation.</li>
+        <li>Say “Nexa” to show the edge glow, hear “Yes,” and start speaking.</li>
+        <li><b>Mute microphone</b> stops wake-word listening, voice sessions, and microphone tests together.</li>
+        <li>Typed chat remains available while muted, and Nexa remembers the mute state after it closes.</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>Example commands</h2>
+      <ul>
+        <li>“Open Chrome.”</li>
+        <li>“Set the Windows volume to 30 percent.”</li>
+        <li>“Find report.pdf in Downloads.”</li>
+        <li>“Create a simple website on my desktop and open it in the browser.”</li>
+        <li>“Show my system information.”</li>
+      </ul>
+    </section>
+  </div>
+
+  <section class="card">
+    <h2>Privacy and security</h2>
+    <p class="alert ok">Nexa stores a separate key for each provider in Windows Credential Manager. Never share an API key in a message, screenshot, or public file.</p>
+    <p>Use the <b>Privacy</b> tab to disable AI access to screenshots or file names. Conversation context exists only during the current app session and can be cleared at any time. Nexa displays the exact shell command and asks for confirmation before running it.</p>
+  </section>
+
+  <section class="card">
+    <h2>Common errors</h2>
+    <ul>
+      <li><b>401 Unauthorized:</b> The key is incorrect, expired, or belongs to another provider. Enter a key from the selected provider.</li>
+      <li><b>402 / insufficient credits:</b> The API account has no usable credit. A ChatGPT subscription does not fund OpenAI API usage.</li>
+      <li><b>429:</b> The request or free-tier limit has been reached. Wait and retry, or check the provider's billing page.</li>
+      <li><b>Voice is not recognized:</b> Choose the correct language in Voice, run Test Microphone, and verify that the model or STT route accepts audio.</li>
+      <li><b>OmniRoute is unavailable:</b> The dashboard at <code>localhost:20128</code> must open and the OmniRoute service must be running.</li>
+    </ul>
+  </section>
+  <div class="footer">Nexa 1.0 · Choose Exit from the system tray menu to quit completely.</div>
+</main>
+</body>
+</html>

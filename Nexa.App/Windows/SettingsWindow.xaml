@@ -1,0 +1,305 @@
+<Window x:Class="Nexa.App.Windows.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Nexa Settings"
+        Icon="/Nexa;component/Assets/nexa.ico"
+        Width="840"
+        Height="680"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource BackgroundBrush}"
+        MinWidth="690" MinHeight="500"
+        ResizeMode="CanResize">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+
+        <Style x:Key="SettingsTabButton" TargetType="RadioButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource SecondaryTextBrush}"/>
+            <Setter Property="Padding" Value="20,12"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+                    <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="SettingsLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="0,0,0,6"/>
+        </Style>
+
+        <Style x:Key="SettingsTextBox" TargetType="TextBox">
+            <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+
+        <Style x:Key="SettingsComboBox" TargetType="ComboBox">
+            <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
+            <!-- Windows 10 draws the editable ComboBox face white despite its Background. -->
+            <Setter Property="Foreground" Value="#202020"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+
+        <Style x:Key="SettingsButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style x:Key="SectionHeader" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,0,0,16"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <Border Grid.Column="0" Background="{StaticResource HeroBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,1,0">
+            <StackPanel Margin="0,20,0,0">
+                <Image Source="/Nexa;component/Assets/nexa.png" Width="66" Height="66" Stretch="Uniform" HorizontalAlignment="Left" Margin="20,0,0,8"/>
+                <TextBlock Text="NEXA" Foreground="{StaticResource TextBrush}" FontSize="20" FontWeight="Bold" Margin="20,0,0,3"/>
+                <TextBlock Text="Make it yours" Foreground="{StaticResource SecondaryTextBrush}" FontSize="12" Margin="20,0,0,22"/>
+                <RadioButton x:Name="GuideTab" Style="{StaticResource SettingsTabButton}" Content="Quick start" GroupName="SettingsTabs"/>
+                <RadioButton x:Name="GeneralTab" Style="{StaticResource SettingsTabButton}" Content="General" IsChecked="True" GroupName="SettingsTabs"/>
+                <RadioButton x:Name="AITab" Style="{StaticResource SettingsTabButton}" Content="AI" GroupName="SettingsTabs"/>
+                <RadioButton x:Name="VoiceTab" Style="{StaticResource SettingsTabButton}" Content="Voice" GroupName="SettingsTabs"/>
+                <RadioButton x:Name="PrivacyTab" Style="{StaticResource SettingsTabButton}" Content="Privacy" GroupName="SettingsTabs"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Content Area -->
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" Padding="30">
+            <StackPanel>
+                <!-- General Section -->
+                <StackPanel x:Name="GeneralSection" Visibility="{Binding IsChecked, ElementName=GeneralTab, Converter={StaticResource BoolToVis}}">
+                    <TextBlock Style="{StaticResource SectionHeader}" Text="General Settings"/>
+
+                    <TextBlock Style="{StaticResource SettingsLabel}" Text="Global Hotkey"/>
+                    <TextBox x:Name="GlobalHotkeyTextBox" Style="{StaticResource SettingsTextBox}" IsReadOnly="True" Margin="0,0,0,16"/>
+
+                    <TextBlock Style="{StaticResource SettingsLabel}" Text="Theme"/>
+                    <ComboBox x:Name="ThemeComboBox" Style="{StaticResource SettingsComboBox}" Margin="0,0,0,16">
+                        <ComboBoxItem Content="Dark" Tag="Dark"/>
+                        <ComboBoxItem Content="Light" Tag="Light"/>
+                    </ComboBox>
+
+                    <CheckBox x:Name="LaunchAtStartupCheckBox" Content="Launch at Windows startup" Foreground="{StaticResource TextBrush}" Margin="0,0,0,16"/>
+                    <Border Background="{StaticResource HeroBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                            CornerRadius="12" Padding="14" Margin="0,8,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Nexa AI Assistant" Foreground="{StaticResource TextBrush}" FontWeight="SemiBold" FontSize="15"/>
+                            <TextBlock Text="Version 1.0.0  •  Windows 10/11  •  Keys stay in Windows Credential Manager"
+                                       Foreground="{StaticResource SecondaryTextBrush}" TextWrapping="Wrap" FontSize="12" Margin="0,6,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- AI Section -->
+                <StackPanel x:Name="AISection" Visibility="{Binding IsChecked, ElementName=AITab, Converter={StaticResource BoolToVis}}">
+                    <TextBlock Style="{StaticResource SectionHeader}" Text="AI Configuration"/>
+
+                    <TextBlock Style="{StaticResource SettingsLabel}" Text="Provider"/>
+                    <ComboBox x:Name="ProviderComboBox" Style="{StaticResource SettingsComboBox}" SelectionChanged="ProviderComboBox_SelectionChanged" Margin="0,0,0,16">
+                        <ComboBoxItem Content="OpenAI" Tag="openai"/>
+                        <ComboBoxItem Content="Anthropic Claude" Tag="anthropic"/>
+                        <ComboBoxItem Content="Google Gemini" Tag="gemini"/>
+                        <ComboBoxItem Content="OpenRouter" Tag="openrouter"/>
+                        <ComboBoxItem Content="OpenAI Compatible / Custom" Tag="compatible"/>
+                        <ComboBoxItem Content="OmniRoute" Tag="omniroute"/>
+                    </ComboBox>
+
+                    <Border Background="{StaticResource HeroBrush}" CornerRadius="12" Padding="14"
+                            BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Margin="0,0,0,16">
+                        <StackPanel>
+                            <TextBlock x:Name="ProviderHelpBlock" Foreground="{StaticResource TextBrush}"
+                                       TextWrapping="Wrap" FontSize="12"/>
+                            <Button x:Name="OpenProviderKeyButton" Content="Get an API key" Click="OpenProviderKey_Click"
+                                    Style="{StaticResource SettingsButton}" HorizontalAlignment="Left" Margin="0,10,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock x:Name="BaseUrlLabel" Style="{StaticResource SettingsLabel}" Text="Base URL"/>
+                    <TextBox x:Name="BaseUrlTextBox" Style="{StaticResource SettingsTextBox}" Margin="0,0,0,16"/>
+
+                    <TextBlock Style="{StaticResource SettingsLabel}" Text="API Key"/>
+                    <PasswordBox x:Name="ApiKeyBox" Background="{StaticResource SurfaceBrush}" Foreground="{StaticResource TextBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="10,8" FontSize="13" Margin="0,0,0,16"/>
+                    <TextBlock Foreground="{StaticResource SecondaryTextBrush}" FontSize="11" Margin="0,-11,0,16" Text="Saved key is hidden. Leave this empty to keep it."/>
+                    <TextBlock x:Name="SavedKeyStatusBlock" Foreground="{StaticResource AccentBrush}" FontSize="11"
+                               TextWrapping="Wrap" Margin="0,-10,0,16"/>
+
+                    <TextBlock Style="{StaticResource SettingsLabel}" Text="Model"/>
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <ComboBox x:Name="ModelComboBox" Style="{StaticResource SettingsComboBox}" IsEditable="True"/>
+                        <Button Grid.Column="1" Content="Refresh" Style="{StaticResource SettingsButton}" Click="RefreshModels_Click" Margin="8,0,0,0"/>
+                    </Grid>
+
+                    <CheckBox x:Name="UseAIForComplexQueriesCheckBox" Content="Use AI for complex queries" Foreground="{StaticResource TextBrush}" Margin="0,0,0,16"/>
+                    <TextBlock Text="Voice needs a model that accepts audio input. A text-only model can still answer typed messages."
+                               Foreground="{StaticResource SecondaryTextBrush}" TextWrapping="Wrap" FontSize="12" Margin="0,0,0,12"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                        <Button Content="Test Connection" Style="{StaticResource SettingsButton}" Click="TestConnection_Click" Margin="0,0,8,0"/>
+                        <Button Content="Save" Style="{StaticResource PrimaryButton}" Click="SaveSettings_Click" Padding="24,8"/>
+                    </StackPanel>
+
+                    <TextBlock x:Name="StatusTextBlock" Foreground="{StaticResource SecondaryTextBrush}" FontSize="12" Margin="0,12,0,0" TextWrapping="Wrap"/>
+                </StackPanel>
+
+                <!-- Voice Section -->
+                <StackPanel x:Name="VoiceSection" Visibility="{Binding IsChecked, ElementName=VoiceTab, Converter={StaticResource BoolToVis}}">
+                    <TextBlock Style="{StaticResource SectionHeader}" Text="Voice Settings"/>
+                    <Border Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"
+                            BorderThickness="1" CornerRadius="10" Padding="12" Margin="0,0,0,14">
+                        <TextBlock Text="The Mute microphone button in Nexa stops all listening, including the wake word and voice sessions. Typed chat stays available."
+                                   Foreground="{StaticResource TextBrush}" TextWrapping="Wrap" FontSize="12"/>
+                    </Border>
+                    <CheckBox x:Name="WakeWordCheckBox" Content="Listen for 'Nexa' while the app is running"
+                              Foreground="{StaticResource TextBrush}" Margin="0,0,0,16"/>
+
+                    <TextBlock Style="{StaticResource SettingsLabel}" Text="Speech Language"/>
+                    <ComboBox x:Name="SpeechLanguageComboBox" Style="{StaticResource SettingsComboBox}" Margin="0,0,0,16">
+                        <ComboBoxItem Content="Auto" Tag="auto"/>
+                        <ComboBoxItem Content="English" Tag="en-US"/>
+                        <ComboBoxItem Content="Persian" Tag="fa-IR"/>
+                    </ComboBox>
+
+                    <CheckBox x:Name="VoiceResponsesCheckBox" Content="Enable voice responses" Foreground="{StaticResource TextBrush}" Margin="0,0,0,16"/>
+
+                    <TextBlock Style="{StaticResource SettingsLabel}" Text="Text-to-Speech Voice"/>
+                    <ComboBox x:Name="TtsVoiceComboBox" Style="{StaticResource SettingsComboBox}" Margin="0,0,0,16"/>
+
+                    <TextBlock Style="{StaticResource SettingsLabel}" Text="Speech Rate"/>
+                    <Slider x:Name="SpeechRateSlider" Minimum="-10" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True" Margin="0,0,0,16"/>
+
+                    <TextBlock Style="{StaticResource SettingsLabel}" Text="Speech Volume"/>
+                    <Slider x:Name="SpeechVolumeSlider" Minimum="0" Maximum="100" Value="100" TickFrequency="5" IsSnapToTickEnabled="True" Margin="0,0,0,16"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                        <Button Content="Test Microphone" Style="{StaticResource SettingsButton}" Click="TestMicrophone_Click" Margin="0,0,8,0"/>
+                        <Button Content="Test Voice" Style="{StaticResource SettingsButton}" Click="TestVoice_Click"/>
+                    </StackPanel>
+
+                    <TextBlock x:Name="VoiceStatusBlock" Foreground="{StaticResource SecondaryTextBrush}" FontSize="12" Margin="0,12,0,0" TextWrapping="Wrap"/>
+                </StackPanel>
+
+                <!-- Privacy Section -->
+                <StackPanel x:Name="PrivacySection" Visibility="{Binding IsChecked, ElementName=PrivacyTab, Converter={StaticResource BoolToVis}}">
+                    <TextBlock Style="{StaticResource SectionHeader}" Text="Privacy Settings"/>
+
+                    <CheckBox x:Name="AllowScreenshotsCheckBox" Content="Allow AI to take local screenshots" Foreground="{StaticResource TextBrush}" Margin="0,0,0,12"/>
+                    <CheckBox x:Name="AllowFileNamesCheckBox" Content="Allow AI to search local files" Foreground="{StaticResource TextBrush}" Margin="0,0,0,12"/>
+                    <CheckBox x:Name="StoreCommandHistoryCheckBox" Content="Remember recent messages in this session" Foreground="{StaticResource TextBrush}" Margin="0,0,0,16"/>
+                    <TextBlock Text="Screenshots stay on your computer. Recent message context is kept only while Nexa is running."
+                               Foreground="{StaticResource SecondaryTextBrush}" TextWrapping="Wrap" FontSize="12" Margin="0,0,0,12"/>
+
+                    <Button Content="Clear recent context" Style="{StaticResource SettingsButton}" Click="ClearHistory_Click" Margin="0,8,0,0"/>
+                </StackPanel>
+
+                <!-- Quick start and provider key guide -->
+                <StackPanel x:Name="GuideSection" Visibility="{Binding IsChecked, ElementName=GuideTab, Converter={StaticResource BoolToVis}}">
+                    <TextBlock Style="{StaticResource SectionHeader}" Text="Get started with Nexa" FontSize="20"/>
+                    <TextBlock Text="1. Choose a provider in the AI tab. 2. Create an API key on that provider's official site. 3. Enter the key, refresh the model list, test the connection, and save."
+                               Foreground="{StaticResource TextBrush}" FontSize="14" TextWrapping="Wrap" Margin="0,0,0,16"/>
+                    <Button Content="Open AI settings" Click="OpenAISettings_Click"
+                            Style="{StaticResource PrimaryButton}" HorizontalAlignment="Left" Margin="0,0,0,16"/>
+
+                    <Border Background="{StaticResource HeroBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                            CornerRadius="14" Padding="16" Margin="0,0,0,12">
+                        <StackPanel>
+                            <TextBlock Text="An easy place to start: Google Gemini" Foreground="{StaticResource AccentBrush}" FontSize="15" FontWeight="SemiBold"/>
+                            <TextBlock Text="Open Google AI Studio and create a key in API Keys. Some models offer a limited free tier. For voice commands, choose a model that accepts audio input."
+                                       Foreground="{StaticResource TextBrush}" TextWrapping="Wrap" Margin="0,8,0,10"/>
+                            <Button Content="Open Gemini API Keys" Tag="https://aistudio.google.com/app/apikey"
+                                    Click="GuideLink_Click" Style="{StaticResource SettingsButton}" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                            CornerRadius="14" Padding="16" Margin="0,0,0,12">
+                        <StackPanel>
+                            <TextBlock Text="OpenRouter: many models with one account" Foreground="{StaticResource TextBrush}" FontSize="15" FontWeight="SemiBold"/>
+                            <TextBlock Text="Create a key in OpenRouter Keys. Free models have request limits, and a free model does not necessarily support audio."
+                                       Foreground="{StaticResource SecondaryTextBrush}" TextWrapping="Wrap" Margin="0,8,0,10"/>
+                            <Button Content="Open OpenRouter Keys" Tag="https://openrouter.ai/settings/keys"
+                                    Click="GuideLink_Click" Style="{StaticResource SettingsButton}" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                            CornerRadius="14" Padding="16" Margin="0,0,0,12">
+                        <StackPanel>
+                            <TextBlock Text="OpenAI: API billing is separate from ChatGPT" Foreground="{StaticResource TextBrush}" FontSize="15" FontWeight="SemiBold"/>
+                            <TextBlock Text="Create a key in OpenAI Platform API Keys and check API billing. A ChatGPT subscription does not include API credits. For voice, choose a model that accepts audio in Chat Completions."
+                                       Foreground="{StaticResource SecondaryTextBrush}" TextWrapping="Wrap" Margin="0,8,0,10"/>
+                            <Button Content="Open OpenAI API Keys" Tag="https://platform.openai.com/api-keys"
+                                    Click="GuideLink_Click" Style="{StaticResource SettingsButton}" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                            CornerRadius="14" Padding="16" Margin="0,0,0,12">
+                        <StackPanel>
+                            <TextBlock Text="Claude: for typed commands" Foreground="{StaticResource TextBrush}" FontSize="15" FontWeight="SemiBold"/>
+                            <TextBlock Text="Create a key in Claude Console under Settings → API Keys. Nexa's direct Claude connection supports typed chat; choose Gemini or another audio-capable provider for voice commands."
+                                       Foreground="{StaticResource SecondaryTextBrush}" TextWrapping="Wrap" Margin="0,8,0,10"/>
+                            <Button Content="Open Claude API Keys" Tag="https://platform.claude.com/settings/keys"
+                                    Click="GuideLink_Click" Style="{StaticResource SettingsButton}" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                            CornerRadius="14" Padding="16" Margin="0,0,0,12">
+                        <StackPanel>
+                            <TextBlock Text="OmniRoute: connect to a local gateway" Foreground="{StaticResource TextBrush}" FontSize="15" FontWeight="SemiBold"/>
+                            <TextBlock Text="Run OmniRoute on this computer, connect an upstream model provider in its dashboard, and create a client key in API Manager / API Keys. Nexa uses localhost:20128/v1 by default. OmniRoute does not provide model credits."
+                                       Foreground="{StaticResource SecondaryTextBrush}" TextWrapping="Wrap" Margin="0,8,0,10"/>
+                            <Button Content="Open OmniRoute dashboard" Tag="http://localhost:20128"
+                                    Click="GuideLink_Click" Style="{StaticResource SettingsButton}" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="Nexa includes typed chat, voice commands with a compatible model, the Nexa wake word, app and URL launching, file search and creation, and Windows volume control. Sensitive actions such as shell commands require confirmation."
+                               Foreground="{StaticResource TextBrush}" TextWrapping="Wrap" FontSize="13" Margin="0,8,0,10"/>
+                    <TextBlock Text="Never share an API key in a message or screenshot. Nexa stores it in Windows Credential Manager. Costs and limits depend on the selected provider account."
+                               Foreground="{StaticResource SecondaryTextBrush}" TextWrapping="Wrap" FontSize="12" Margin="0,0,0,12"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>
